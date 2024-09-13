@@ -5,7 +5,7 @@ import { where } from 'sequelize';
 const salt = bcrypt.genSaltSync(10);
 
 let createNewUser = async (data) => {
-     return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
@@ -19,20 +19,20 @@ let createNewUser = async (data) => {
                 roleId: data.roleId,
             });
             resolve("OK");
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 }
 
-let getAllUser = async () => { 
-    return new Promise(async (resolve, reject) => { 
+let getAllUser = async () => {
+    return new Promise(async (resolve, reject) => {
         try {
             let users = db.User.findAll({
                 raw: true,
             });
             resolve(users);
-        }catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
@@ -43,14 +43,14 @@ let hashUserPassword = (password) => {
         try {
             let hashPassword = await bcrypt.hashSync(password, salt);
             resolve(hashPassword);
-        } catch(e){
+        } catch (e) {
             reject(e);
         }
     });
 }
 
-let getUserById =  (userId) => {
-    return new Promise(async(resolve, reject) => {
+let getUserById = (userId) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
                 where: { id: userId },
@@ -59,20 +59,20 @@ let getUserById =  (userId) => {
 
             if (user) {
                 resolve(user);
-            }else{
-                 resolve({});
+            } else {
+                resolve({});
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 }
 
 let updateDate = (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: {id: data.userId}
+                where: { id: data.userId }
             })
             if (user) {
                 user.firstName = data.firstName;
@@ -84,16 +84,16 @@ let updateDate = (data) => {
             } else {
                 resolve();
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 }
 let deleteUserById = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: {id: id}
+                where: { id: id }
             })
             if (user) {
                 await user.destroy();
@@ -102,7 +102,7 @@ let deleteUserById = (id) => {
             } else {
                 resolve();
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });

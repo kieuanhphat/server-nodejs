@@ -27,7 +27,7 @@ let getEditCRUD = async (req, res) => {
     let id = req.query.id;
     if (id) {
         let dataUser = await crudServices.getUserById(id);
-       
+
         return res.render('editCRUD.ejs', {
             user: dataUser,
         });
@@ -54,7 +54,7 @@ let deleteCRUD = async (req, res) => {
             });
         } else {
             return res.send('user not found!');
-        }  
+        }
     } else {
         return res.send('user not found!');
     }
