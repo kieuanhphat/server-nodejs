@@ -113,4 +113,5 @@ module.exports = {
     getUserById: getUserById,
     updateDate: updateDate,
     deleteUserById: deleteUserById,
+    hashUserPassword: hashUserPassword,
 }
