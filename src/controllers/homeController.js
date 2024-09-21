@@ -10,7 +10,6 @@ let getHomePage = async (req, res) => {
     } catch (e) {
         console.log(e);
     }
-
 }
 
 let getCRUD = (req, res) => {

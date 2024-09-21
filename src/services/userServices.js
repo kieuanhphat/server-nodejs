@@ -144,40 +144,26 @@ let updateUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       let messUpdate = {};
+      if (data.id) {
+        let user = await db.User.findOne({
+          where: { id: data.id },
+          raw: false
+        })
 
-      let user = await db.User.findOne({
-        where: { id: data.id },
-        raw: false
-      })
-
-      if (user) {
-        let checkUserDB = await checkEmail(data.email);
-        let checkUserData = user.email;
-        user.firstName = data.firstName;
-        user.lastName = data.lastName;
-        user.email = data.email;
-        user.address = data.address;
-        user.phoneNumber = data.phoneNumber;
-        user.gender = data.gender === '1' ? true : false;
-        user.roleId = data.roleId;
-        if (checkUserData == data.email) {
+        if (user) {
+          user.firstName = data.firstName;
+          user.lastName = data.lastName;
+          user.address = data.address;
           await user.save();
           messUpdate.errCode = 0;
-          messUpdate.mess = 'Update User success';
+          messUpdate.mess = 'update';
         } else {
-          if (checkUserDB === 0) {
-            await user.save();
-            messUpdate.errCode = 0;
-            messUpdate.mess = 'Update User success';
-          } else {
-            messUpdate.errCode = 1;
-            messUpdate.mess = 'User already exists! Please use other email';
-          }
+          messUpdate.errCode = 1;
+          messUpdate.mess = 'User not found';
         }
-
       } else {
         messUpdate.errCode = 1;
-        messUpdate.mess = 'User not found';
+        messUpdate.mess = 'Update not success';
       }
       resolve(messUpdate);
     } catch (e) {
